@@ -9,11 +9,8 @@
 / {
 	compatible = "zbt,we826q", "qca,qca9531";
 	model = "ZBT WE826-Q";
+
 	aliases {
-		led-boot = &led_power;
-		led-failsafe = &led_power;
-		led-running = &led_power;
-		led-upgrade = &led_power;
 		label-mac-device = &wmac;
 	};
 	leds {
@@ -24,7 +21,7 @@
 			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
 		};
 
-		wlan-2g {
+		wlan2g {
 			label = "zbt-we826q:green:wlan-2g";
 			gpios = <&gpio 12 GPIO_ACTIVE_LOW>;
 		};
@@ -93,5 +90,19 @@
 };
 
 &usb_phy {
+	status = "okay";
+};
+
+&pcie0 {
+	status = "okay";
+};
+
+&wmac {
+	status = "okay";
+
+	mtd-cal-data = <&art 0x1000>;
+};
+
+&mdi0 {
 	status = "okay";
 };
