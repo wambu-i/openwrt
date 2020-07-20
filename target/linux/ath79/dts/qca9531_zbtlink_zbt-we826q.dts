@@ -13,6 +13,7 @@
 	aliases {
 		label-mac-device = &wmac;
 	};
+
 	leds {
 		compatible = "gpio-leds";
 
@@ -60,8 +61,7 @@
 			linux,code = <KEY_WPS_BUTTON>;
 			gpios = <&gpio 17 GPIO_ACTIVE_LOW>;
 			debounce-interval = <60>;
-		}
-
+		};
 	};
 
 	watchdog {
@@ -97,7 +97,7 @@
 
 			partition@40000 {
 				label = "u-boot-env";
-				reg = <0x040000 0x010000>
+				reg = <0x040000 0x010000>;
 			};
 
 			partition@50000 {
@@ -115,7 +115,7 @@
 				partition@e80000 {
 					label = "kernel";
 					reg = <0xe80000 0x170000>;
-				}
+				};
 			};
 
 			art: partition@ff0000 {
