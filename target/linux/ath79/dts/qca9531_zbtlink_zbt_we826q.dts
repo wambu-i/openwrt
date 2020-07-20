@@ -7,7 +7,7 @@
 #include "qca953x.dtsi"
 
 / {
-	compatible = "zbt,we826q", "qca,qca9531";
+	compatible = "zbtlink,zbt-we826q", "qca,qca9531";
 	model = "ZBT WE826-Q";
 
 	aliases {
@@ -74,6 +74,59 @@
 	};
 };
 
+&spi {
+	status = "okay";
+
+	num-cs = <1>;
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <25000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			uboot: partition@0 {
+				label = "u-boot";
+				reg = <0x000000 0x040000>;
+				read-only;
+			};
+
+			partition@40000 {
+				label = "u-boot-env";
+				reg = <0x040000 0x050000>
+			};
+
+			partition@50000 {
+				label = "firmware";
+				reg = <0x050000 0xff0000>;
+				compatible = "fixed-partitions";
+				#address-cells = <1>;
+				#size-cells = <1>;
+
+				partition@0 {
+					label = "rootfs";
+					reg = <0x050000 0xe80000>;
+				};
+
+				partition@e80000 {
+					label = "kernel";
+					reg = <0xe80000 0xff0000>;
+				}
+			};
+
+			art: partition@ff0000 {
+				label = "art";
+				reg = <0xff0000 0x1000000>;
+				read-only;
+			};
+		};
+	};
+};
+
 &uart {
 	status = "okay";
 };
@@ -103,6 +156,28 @@
 	mtd-cal-data = <&art 0x1000>;
 };
 
-&mdi0 {
+&mdio0 {
 	status = "okay";
+};
+
+/* WAN */
+&eth0 {
+	status = "okay";
+
+	phy-handle = <&swphy4>;
+
+	mtd-mac-address = <&art 0x0>;
+	mtd-mac-address-increment = <1>;
+
+	fixed-link {
+		speed = <100>;
+		full-duplex;
+	};
+};
+
+/* LAN */
+&eth1 {
+	status = "okay";
+
+	mtd-mac-address = <&art 0x0>;
 };
