@@ -1493,7 +1493,7 @@ define Device/zbtlink_zbt-we826q
 	SOC := qca9531
 	DEVICE_VENDOR := ZBT
 	DEVICE_MODEL := WE826Q
-	IMAGE_SIZE := 16320k
+	IMAGE_SIZE := 16000k
 	DEVICE_PACKAGES := kmod-usb2 kmod-usb-storage
 endef
 TARGET_DEVICES += zbtlink_zbt-we826q
