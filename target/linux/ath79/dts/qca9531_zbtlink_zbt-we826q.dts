@@ -12,19 +12,23 @@
 
 	aliases {
 		label-mac-device = &wmac;
+		led-failsafe = &led_status;
+		led-running = &led_status;
+		led-upgrade = &led_status;
 	};
 
 	leds {
 		compatible = "gpio-leds";
 
-		status {
+		led_status: status {
 			label = "zbt-we826q:green:status";
 			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
 		};
 
 		wlan2g {
-			label = "zbt-we826q:green:wlan-2g";
+			label = "zbt-we826q:green:wlan2g";
 			gpios = <&gpio 12 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "phy0tpt";
 		};
 
 		lan1 {
@@ -89,7 +93,7 @@
 			#address-cells = <1>;
 			#size-cells = <1>;
 
-			uboot: partition@0 {
+			partition@0 {
 				label = "u-boot";
 				reg = <0x000000 0x040000>;
 				read-only;
@@ -101,21 +105,9 @@
 			};
 
 			partition@50000 {
+				compatible = "denx,uimage";
 				label = "firmware";
 				reg = <0x050000 0xfa0000>;
-				compatible = "fixed-partitions";
-				#address-cells = <1>;
-				#size-cells = <1>;
-
-				partition@0 {
-					label = "rootfs";
-					reg = <0x050000 0xe30000>;
-				};
-
-				partition@e80000 {
-					label = "kernel";
-					reg = <0xe80000 0x170000>;
-				};
 			};
 
 			art: partition@ff0000 {
