@@ -12,47 +12,47 @@
 
 	aliases {
 		label-mac-device = &wmac;
-		led-failsafe = &led_status;
-		led-running = &led_status;
-		led-upgrade = &led_status;
+		led-failsafe = &led_power;
+		led-running = &led_power;
+		led-upgrade = &led_power;
 	};
 
 	leds {
 		compatible = "gpio-leds";
 
-		led_status: status {
-			label = "zbt-we826q:green:status";
+		led_power: power {
+			label = "zbt-we826q:red:status";
 			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
 		};
 
 		wlan2g {
-			label = "zbt-we826q:green:wlan2g";
+			label = "zbt-we826q:blue:wlan2g";
 			gpios = <&gpio 12 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "phy0tpt";
 		};
 
 		lan1 {
-			label = "zbt-we826q:green:lan1";
+			label = "zbt-we826q:blue:lan1";
 			gpios = <&gpio 16 GPIO_ACTIVE_LOW>;
 		};
 
 		lan2 {
-			label = "zbt-we826q:green:lan2";
+			label = "zbt-we826q:blue:lan2";
 			gpios = <&gpio 15 GPIO_ACTIVE_LOW>;
 		};
 
 		lan3 {
-			label = "zbt-we826q:green:lan3";
+			label = "zbt-we826q:blue:lan3";
 			gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
 		};
 
 		lan4 {
-			label = "zbt-we826q:green:lan4";
+			label = "zbt-we826q:blue:lan4";
 			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
 		};
 
 		wan {
-			label = "zbt-we826q:green:wan";
+			label = "zbt-we826q:blue:wan";
 			gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -93,26 +93,21 @@
 			#address-cells = <1>;
 			#size-cells = <1>;
 
-			partition@0 {
+			uboot: partition@0 {
 				label = "u-boot";
-				reg = <0x000000 0x040000>;
+				reg = <0x000000 0x020000>;
 				read-only;
 			};
 
-			partition@40000 {
-				label = "u-boot-env";
-				reg = <0x040000 0x010000>;
-			};
-
-			partition@50000 {
-				compatible = "denx,uimage";
+			partition@20000 {
+				compatible = "tplink,firmware";
 				label = "firmware";
-				reg = <0x050000 0xfa0000>;
+				reg = <0x020000 0x7d0000>;
 			};
 
-			art: partition@ff0000 {
+			art: partition@7f0000 {
 				label = "art";
-				reg = <0xff0000 0x010000>;
+				reg = <0x7f0000 0x010000>;
 				read-only;
 			};
 		};
