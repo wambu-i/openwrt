@@ -1502,12 +1502,12 @@ endef
 TARGET_DEVICES += zbtlink_zbt-wd323
 
 define Device/zbtlink_zbt-we826q
+$(Device/tplink-16mlzma)
   SOC := qca9531
   DEVICE_VENDOR := ZBT
   DEVICE_MODEL := WE826Q
   IMAGE_SIZE := 16000k
   DEVICE_PACKAGES := kmod-usb2 kmod-usb-storage
   SUPPORTED_DEVICES += zbt-we826q
-  IMAGE/sysupgrade.bin := append-rootfs | append-kernel | append-metadata | check-size $$(IMAGE_SIZE)
 endef
 TARGET_DEVICES += zbtlink_zbt-we826q
