@@ -18,8 +18,8 @@
 	};
 
 	chosen {
-		bootargs = "rootfstype=squashfs,jffs2 noinitrd console=ttyS0,115200";
-		stdout-path = "serial0:115200n8";
+		bootargs = "console=ttyS0,115200";
+		//stdout-path = "serial0:115200n8";
 	};
 
 	leds {
@@ -110,9 +110,22 @@
 				read-only;
 			};
 			partition@50000 {
-				compatible = "tplink,firmware";
+				compatible = "denx,uimage";
 				label = "firmware";
 				reg = <0x050000 0xfa0000>;
+				/* compatible = "fixed-partitions";
+				#address-cells = <1>;
+				#size-cells = <1>;
+
+				partition@0 {
+					label = "rootfs";
+					reg = <0x050000 0xe30000>;
+				};
+
+				partition@e80000 {
+					label = "kernel";
+					reg = <0xe80000 0x120000>;
+				}; */
 			};
 
 			art: partition@ff0000 {
