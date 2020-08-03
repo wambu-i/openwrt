@@ -18,8 +18,8 @@
 	};
 
 	chosen {
-		bootargs = "rootfstype=squashfs,jffs2 noinitrd console=ttyS0,115200";
-		stdout-path = "serial0:115200n8";
+		bootargs = "console=ttyS0,115200";
+		//stdout-path = "serial0:115200n8";
 	};
 
 	leds {
