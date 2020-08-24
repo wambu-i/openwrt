@@ -7,7 +7,7 @@ define Device/tplink-v1
   TPLINK_HWREV := 0x1
   TPLINK_HEADER_VERSION := 1
   LOADER_TYPE := gz
-  KERNEL := kernel-bin | append-dtb | lzma
+  KERNEL := kernel-bin | append-dtb | lzma -d20
   KERNEL_INITRAMFS := kernel-bin | append-dtb | lzma | tplink-v1-header
   IMAGES += factory.bin
   IMAGE/sysupgrade.bin := tplink-v1-image sysupgrade | append-metadata
