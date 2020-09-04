@@ -46,6 +46,7 @@ ramips_setup_interfaces()
 	edimax,ew-7476rpc|\
 	edimax,ew-7478ac|\
 	elecom,wrh-300cr|\
+	hootoo,ht-tm05|\
 	kimax,u25awf-h1|\
 	kimax,u35wf|\
 	kingston,mlw221|\
@@ -108,6 +109,7 @@ ramips_setup_interfaces()
 			"0:lan" "6@eth0"
 		;;
 	dlink,dir-810l|\
+	netgear,jwnr2010-v5|\
 	trendnet,tew-810dr|\
 	zbtlink,zbt-we2026)
 		ucidef_add_switch "switch0" \
@@ -240,6 +242,7 @@ ramips_setup_macs()
 	edimax,ew-7478apc|\
 	fon,fon2601|\
 	head-weblink,hdrm200|\
+	netgear,jwnr2010-v5|\
 	nexx,wt3020-4m|\
 	nexx,wt3020-8m|\
 	phicomm,psg1208|\

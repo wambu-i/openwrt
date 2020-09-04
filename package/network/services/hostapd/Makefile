@@ -7,7 +7,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hostapd
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_SOURCE_URL:=http://w1.fi/hostap.git
 PKG_SOURCE_PROTO:=git
@@ -68,6 +68,9 @@ CONFIG_VARIANT:=$(LOCAL_VARIANT)
 ifeq ($(LOCAL_VARIANT),mesh)
   CONFIG_VARIANT:=full
 endif
+ifeq ($(LOCAL_VARIANT),hs20)
+  CONFIG_VARIANT:=full
+endif
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -108,6 +111,10 @@ ifeq ($(SSL_VARIANT),openssl)
   ifeq ($(LOCAL_VARIANT),full)
     DRIVER_MAKEOPTS += CONFIG_OWE=y CONFIG_SUITEB192=y CONFIG_AP=y CONFIG_MESH=y
   endif
+  ifeq ($(LOCAL_VARIANT),hs20)
+    DRIVER_MAKEOPTS += CONFIG_OWE=y CONFIG_SUITEB192=y CONFIG_AP=y CONFIG_MESH=y CONFIG_DPP=y CONFIG_HS20=y CONFIG_INTERWORKING=y
+  endif
+
 endif
 
 ifeq ($(SSL_VARIANT),wolfssl)
@@ -167,6 +174,15 @@ $(call Package/hostapd/Default,$(1))
 endef
 
 Package/hostapd-openssl/description = $(Package/hostapd/description)
+
+define Package/hostapd-hs20
+$(call Package/hostapd/Default,$(1))
+  TITLE+= (OpenSSL with Hotspot 2.0)
+  VARIANT:=hs20-openssl
+  DEPENDS+=+libopenssl
+endef
+
+Package/hostapd-hs20/description = $(Package/hostapd/description)
 
 define Package/hostapd-wolfssl
 $(call Package/hostapd/Default,$(1))
@@ -248,6 +264,17 @@ endef
 
 define Package/wpad-basic/description
  This package contains a basic IEEE 802.1x/WPA Authenticator and Supplicant with WPA-PSK, 802.11r and 802.11w support.
+endef
+
+define Package/wpad-basic-wolfssl
+$(call Package/wpad/Default,$(1))
+  TITLE+= (wolfSSL, 11r, 11w)
+  VARIANT:=wpad-basic-wolfssl
+  DEPENDS+=+libwolfssl
+endef
+
+define Package/wpad-basic-wolfssl/description
+ This package contains a basic IEEE 802.1x/WPA Authenticator and Supplicant with WPA-PSK, SAE (WPA3-Personal), 802.11r and 802.11w support.
 endef
 
 define Package/wpad-mini
@@ -442,7 +469,9 @@ define Build/Configure
 	$(if $(wildcard ./files/hostapd-$(CONFIG_VARIANT).config), \
 		$(CP) ./files/hostapd-$(CONFIG_VARIANT).config $(PKG_BUILD_DIR)/hostapd/.config \
 	)
-	$(CP) ./files/wpa_supplicant-$(CONFIG_VARIANT).config $(PKG_BUILD_DIR)/wpa_supplicant/.config
+	$(if $(wildcard ./files/wpa_supplicant-$(CONFIG_VARIANT).config), \
+		$(CP) ./files/wpa_supplicant-$(CONFIG_VARIANT).config $(PKG_BUILD_DIR)/wpa_supplicant/.config
+	)
 endef
 
 TARGET_CPPFLAGS := \
@@ -556,6 +585,7 @@ define Package/hostapd/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/hostapd/hostapd $(1)/usr/sbin/
 endef
 Package/hostapd-basic/install = $(Package/hostapd/install)
+Package/hostapd-hs20/install = $(Package/hostapd/install)
 Package/hostapd-mini/install = $(Package/hostapd/install)
 Package/hostapd-openssl/install = $(Package/hostapd/install)
 Package/hostapd-wolfssl/install = $(Package/hostapd/install)
@@ -575,6 +605,7 @@ define Package/wpad/install
 	$(LN) wpad $(1)/usr/sbin/wpa_supplicant
 endef
 Package/wpad-basic/install = $(Package/wpad/install)
+Package/wpad-basic-wolfssl/install = $(Package/wpad/install)
 Package/wpad-mini/install = $(Package/wpad/install)
 Package/wpad-openssl/install = $(Package/wpad/install)
 Package/wpad-wolfssl/install = $(Package/wpad/install)
@@ -623,6 +654,7 @@ endif
 
 $(eval $(call BuildPackage,hostapd))
 $(eval $(call BuildPackage,hostapd-basic))
+$(eval $(call BuildPackage,hostapd-hs20))
 $(eval $(call BuildPackage,hostapd-mini))
 $(eval $(call BuildPackage,hostapd-openssl))
 $(eval $(call BuildPackage,hostapd-wolfssl))
@@ -630,6 +662,7 @@ $(eval $(call BuildPackage,wpad))
 $(eval $(call BuildPackage,wpad-mesh-openssl))
 $(eval $(call BuildPackage,wpad-mesh-wolfssl))
 $(eval $(call BuildPackage,wpad-basic))
+$(eval $(call BuildPackage,wpad-basic-wolfssl))
 $(eval $(call BuildPackage,wpad-mini))
 $(eval $(call BuildPackage,wpad-openssl))
 $(eval $(call BuildPackage,wpad-wolfssl))
