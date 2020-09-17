@@ -1610,3 +1610,13 @@ define Device/zyxel_nbg6616
   SUPPORTED_DEVICES += nbg6616
 endef
 TARGET_DEVICES += zyxel_nbg6616
+
+define Device/jangala_get-box
+  SOC := qca9531
+  DEVICE_VENDOR := Jangala
+  DEVICE_MODEL := Get-Box
+  IMAGE_SIZE := 16000k
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-storage
+  SUPPORTED_DEVICES += get-box
+endef
+TARGET_DEVICES += jangala_get-box
