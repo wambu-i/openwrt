@@ -99,7 +99,7 @@
 
 			uboot: partition@0 {
 				label = "u-boot";
-				reg = <0x000000 0x020000>;
+				reg = <0x000000 0x040000>;
 				read-only;
 			};
 			partition@40000 {
@@ -110,7 +110,7 @@
 			partition@50000 {
 				compatible = "denx,uimage";
 				label = "firmware";
-				reg = <0x050000 0x01ec00>;
+				reg = <0x050000 0xfa0000>;
 			};
 
 			art: partition@ff0000 {
