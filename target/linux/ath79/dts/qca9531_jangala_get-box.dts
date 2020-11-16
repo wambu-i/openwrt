@@ -71,14 +71,12 @@
 			debounce-interval = <60>;
 		};
 	};
+	wdt {
+		status = "okay";
+	};
 
-	watchdog {
-		compatible = "linux,wdt-gpio";
-
-		gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
-		hw_algo = "toggle";
-		hw_margin_ms = <1200>;
-		always-running;
+	gpio {
+		status = "okay";
 	};
 };
 
