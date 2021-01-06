@@ -71,8 +71,14 @@
 			debounce-interval = <60>;
 		};
 	};
-	wdt {
-		status = "okay";
+
+	watchdog {
+		compatible = "linux,wdt-gpio";
+
+		gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+		hw_algo = "toggle";
+		hw_margin_ms = <900>;
+		always-running;
 	};
 
 	gpio {
@@ -172,5 +178,5 @@
 &eth1 {
 	status = "okay";
 
-	mtd-mac-address = <&art 0x0>;
+	mtd-mac-address = <&art 0x6>;
 };
