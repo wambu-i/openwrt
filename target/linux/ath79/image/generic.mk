@@ -2112,7 +2112,7 @@ define Device/jangala_get-box
   SOC := qca9531
   DEVICE_VENDOR := Jangala
   DEVICE_MODEL := Get-Box
-  IMAGE_SIZE := 16000k
+  IMAGE_SIZE := 7872k
   DEVICE_PACKAGES := kmod-usb2 kmod-usb-storage
   SUPPORTED_DEVICES += get-box
 endef
