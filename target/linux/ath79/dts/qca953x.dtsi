@@ -57,17 +57,6 @@
 				status = "disabled";
 			};
 
-			usb_phy: usb-phy@18030000 {
-				compatible = "qca,ar7200-usb-phy";
-				reg = <0x18030000 0x100>;
-				#phy-cells = <0>;
-
-				reset-names = "usb-phy", "usb-suspend-override";
-				resets = <&rst 4>, <&rst 3>;
-
-				status = "disabled";
-			};
-
 			gpio: gpio@18040000 {
 				compatible = "qca,qca9530-gpio",
 						"qca,ar9340-gpio";
@@ -215,6 +204,17 @@
 			#size-cells = <0>;
 		};
 	};
+
+	usb_phy: usb-phy {
+		compatible = "qca,ar7200-usb-phy";
+		#phy-cells = <0>;
+
+		reset-names = "usb-phy-analog", "usb-phy", "usb-suspend-override";
+		resets = <&rst 11>, <&rst 4>, <&rst 3>;
+
+		status = "disabled";
+	};
+
 };
 
 &cpuintc {

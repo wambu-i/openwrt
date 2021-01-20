@@ -192,3 +192,7 @@
 
 	mtd-mac-address = <&art 0x6>;
 };
+
+&extosc {
+	clock-frequency = <25000000>;
+};
